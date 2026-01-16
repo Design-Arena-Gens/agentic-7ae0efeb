@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Возможности Claude Code</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .card ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .card li {
+            color: #666;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .card li:last-child {
+            border-bottom: none;
+        }
+
+        .card li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+
+        .demo-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .interactive-demo {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .demo-input {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .subtitle { font-size: 1em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Claude Code</h1>
+        <p class="subtitle">Ваш AI-ассистент для разработки</p>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">💻</div>
+                <h2>Разработка</h2>
+                <ul>
+                    <li>Создание веб-приложений</li>
+                    <li>Написание кода на любых языках</li>
+                    <li>Рефакторинг и оптимизация</li>
+                    <li>Исправление багов</li>
+                    <li>API интеграции</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <h2>Дизайн</h2>
+                <ul>
+                    <li>Адаптивные интерфейсы</li>
+                    <li>CSS анимации</li>
+                    <li>Современный UI/UX</li>
+                    <li>Интерактивные компоненты</li>
+                    <li>Кроссбраузерная совместимость</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🚀</div>
+                <h2>Деплой</h2>
+                <ul>
+                    <li>Автоматический деплой на Vercel</li>
+                    <li>Next.js приложения</li>
+                    <li>React проекты</li>
+                    <li>Статические сайты</li>
+                    <li>Serverless функции</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔧</div>
+                <h2>Инструменты</h2>
+                <ul>
+                    <li>Git операции</li>
+                    <li>Тестирование кода</li>
+                    <li>Документация</li>
+                    <li>Работа с базами данных</li>
+                    <li>DevOps задачи</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🧠</div>
+                <h2>AI возможности</h2>
+                <ul>
+                    <li>Анализ кода</li>
+                    <li>Генерация решений</li>
+                    <li>Объяснение концепций</li>
+                    <li>Поиск оптимизаций</li>
+                    <li>Код-ревью</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🌐</div>
+                <h2>Технологии</h2>
+                <ul>
+                    <li>JavaScript/TypeScript</li>
+                    <li>React, Vue, Angular</li>
+                    <li>Node.js, Python, Go</li>
+                    <li>SQL, MongoDB</li>
+                    <li>HTML/CSS</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎯 Интерактивная демонстрация</h2>
+            <p style="color: #666; margin-bottom: 20px;">Попробуйте простые примеры того, что я могу:</p>
+
+            <div class="interactive-demo">
+                <div class="demo-input">
+                    <h3 style="margin-bottom: 10px; color: #667eea;">Калькулятор</h3>
+                    <input type="text" id="calc-input" placeholder="Введите выражение (например: 25 * 4 + 10)">
+                    <button onclick="calculate()">Вычислить</button>
+                    <div id="calc-result" class="result"></div>
+                </div>
+
+                <div class="demo-input">
+                    <h3 style="margin-bottom: 10px; color: #667eea;">Анализ текста</h3>
+                    <textarea id="text-input" placeholder="Введите текст для анализа..."></textarea>
+                    <button onclick="analyzeText()">Анализировать</button>
+                    <div id="text-result" class="result"></div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h3 style="margin-bottom: 15px; color: #667eea;">⚡ Быстрые примеры команд:</h3>
+                <div style="display: grid; gap: 10px;">
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <strong>Создать React приложение:</strong> "Создай React-приложение с маршрутизацией"
+                    </div>
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <strong>Построить API:</strong> "Создай REST API для управления задачами"
+                    </div>
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <strong>Исправить баг:</strong> "Найди и исправь ошибку в этом коде"
+                    </div>
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <strong>Оптимизировать:</strong> "Оптимизируй производительность этой функции"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Claude Code — автономный AI-ассистент для разработки</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Powered by Anthropic • Deployed on Vercel</p>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const input = document.getElementById('calc-input').value;
+            const result = document.getElementById('calc-result');
+
+            try {
+                // Безопасное вычисление только математических выражений
+                const sanitized = input.replace(/[^0-9+\-*/().\s]/g, '');
+                const answer = eval(sanitized);
+                result.innerHTML = `<strong>Результат:</strong> ${answer}`;
+                result.classList.add('show');
+            } catch (e) {
+                result.innerHTML = '<strong style="color: #e74c3c;">Ошибка:</strong> Некорректное выражение';
+                result.classList.add('show');
+            }
+        }
+
+        function analyzeText() {
+            const input = document.getElementById('text-input').value;
+            const result = document.getElementById('text-result');
+
+            if (!input.trim()) {
+                result.innerHTML = '<strong style="color: #e74c3c;">Введите текст для анализа</strong>';
+                result.classList.add('show');
+                return;
+            }
+
+            const words = input.trim().split(/\s+/).length;
+            const chars = input.length;
+            const charsNoSpaces = input.replace(/\s/g, '').length;
+            const sentences = input.split(/[.!?]+/).filter(s => s.trim()).length;
+            const avgWordLength = (charsNoSpaces / words).toFixed(1);
+
+            result.innerHTML = `
+                <strong>Статистика текста:</strong><br>
+                📝 Слов: ${words}<br>
+                🔤 Символов: ${chars} (без пробелов: ${charsNoSpaces})<br>
+                📋 Предложений: ${sentences}<br>
+                📊 Средняя длина слова: ${avgWordLength} символов
+            `;
+            result.classList.add('show');
+        }
+
+        // Анимация карточек при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s, transform 0.5s';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Enter для калькулятора
+        document.getElementById('calc-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') calculate();
+        });
+    </script>
+</body>
+</html>
